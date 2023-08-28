@@ -1,26 +1,27 @@
-package controller
+package handlers
 
 import (
 	"net/http"
-	"r2-fibonacci-matrix/service"
+	"r2-fibonacci-matrix/internal/app/dtos"
+	"r2-fibonacci-matrix/internal/app/services"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 type (
-	Controller struct {
-		fibonacciMatrixService service.FibonacciMatrixService
+	Handler struct {
+		fibonacciMatrixService services.FibonacciMatrixService
 	}
 )
 
-func NewController(fibonacciMatrixService service.FibonacciMatrixService) *Controller {
-	return &Controller{
+func NewMatrixHandler(fibonacciMatrixService services.FibonacciMatrixService) *Handler {
+	return &Handler{
 		fibonacciMatrixService: fibonacciMatrixService,
 	}
 }
 
-func (c *Controller) GenerateSpiralMatrix(ctx *gin.Context) {
+func (h *Handler) GenerateSpiralMatrix(ctx *gin.Context) {
 	rows := ctx.Query("rows")
 	cols := ctx.Query("columns")
 
@@ -44,7 +45,7 @@ func (c *Controller) GenerateSpiralMatrix(ctx *gin.Context) {
 		return
 	}
 
-	response := MatrixResponse{Rows: c.fibonacciMatrixService.GenerateMatrix(rowsInt, colsInt)}
+	response := dtos.MatrixResponse{Rows: h.fibonacciMatrixService.GenerateMatrix(rowsInt, colsInt)}
 
 	ctx.JSON(http.StatusOK, response)
 }

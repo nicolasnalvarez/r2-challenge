@@ -1,15 +1,16 @@
-package auth
+package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
+	"r2-fibonacci-matrix/auth"
 	"strings"
 )
 
-// JwtMiddleware validates token and authorizes users
+// Jwt validates token and authorizes users
 // It takes a gin.Context as an argument and returns a gin.HandlerFunc
 // This function is responsible for validating the token sent by the client in the Authorization header
 // and authorizing the user if the token is valid.
-func JwtMiddleware() gin.HandlerFunc {
+func Jwt() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Get the Authorization header from the request
 		clientToken := c.Request.Header.Get("Authorization")
@@ -31,9 +32,9 @@ func JwtMiddleware() gin.HandlerFunc {
 			return
 		}
 		// Create a JwtWrapper with the secret key and issuer
-		jwtWrapper := JwtWrapper{
-			SecretKey: "verysecretkey",
-			Issuer:    "AuthService",
+		jwtWrapper := auth.JwtWrapper{
+			SecretKey: "verysecretkey", // we should set it as an env variable
+			Issuer:    "r2",
 		}
 		// Validate the token
 		claims, err := jwtWrapper.ValidateToken(clientToken)

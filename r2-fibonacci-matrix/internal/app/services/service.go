@@ -1,4 +1,4 @@
-package service
+package services
 
 type (
 	Service struct{}
@@ -8,7 +8,7 @@ type (
 	}
 )
 
-func NewService() *Service {
+func NewMatrixService() *Service {
 	return &Service{}
 }
 
