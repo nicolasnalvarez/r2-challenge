@@ -1,0 +1,102 @@
+.App {
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 14px;
+  margin-top: 5px;
+  color: gray;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.gray-cell {
+  background-color: #ccc;
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+  margin-right: 2px;
+  color: white;
+}
+
+.white-cell {
+  background-color: white;
+  padding: 10px;
+  border-radius: 0 5px 5px 0;
+  margin-left: 2px;
+  margin-right: 10px;
+  color: black;
+}
+
+.calculate-button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.calculate-button:hover {
+  background-color: #555;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+.matrix-table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  border: 2px solid #333;
+  /* Agrega un borde oscuro a la tabla */
+  width: auto;
+  /* Cambia el ancho a auto para que se ajuste a su contenido */
+}
+
+.matrix-table td {
+  padding: 10px;
+  border: 2px solid #333;
+  /* Agrega bordes oscuros a las celdas */
+}
+
+.editable-input {
+  padding: 10px;
+  width: 50px;
+  height: 30px;
+  margin-left: 2px;
+  margin-right: 10px;
+  font-size: inherit;
+  border: none;
+  border-radius: 0;
+  background-color: white;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  font-weight: bold;
+}
