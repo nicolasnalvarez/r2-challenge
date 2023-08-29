@@ -9,6 +9,7 @@ import (
 	userhandler "r2-fibonacci-matrix/internal/user/handlers"
 	"r2-fibonacci-matrix/internal/user/repositories"
 	userservice "r2-fibonacci-matrix/internal/user/services"
+	"r2-fibonacci-matrix/middlewares"
 )
 
 func NewRouter() (*gin.Engine, error) {
@@ -26,7 +27,7 @@ func NewRouter() (*gin.Engine, error) {
 	userHandler := userhandler.NewUserHandler(userService)
 
 	matrixService := matrixservice.NewMatrixService()
-	matrixHandler := matrixhandler.NewMatrixHandler(matrixService)
+	matrixHandler := matrixhandler.NewMatrixHandler(matrixService, userService)
 
 	router.Use(cors.Default())
 	apiRouter := router.Group("/api")
@@ -36,7 +37,7 @@ func NewRouter() (*gin.Engine, error) {
 	apiRouter.POST("/login", userHandler.Login)
 
 	// matrix routes
-	apiRouter.GET("/matrix", matrixHandler.GenerateSpiralMatrix)
+	apiRouter.Use(middlewares.Jwt()).GET("/matrix", matrixHandler.GenerateSpiralMatrix)
 
 	return router, nil
 }

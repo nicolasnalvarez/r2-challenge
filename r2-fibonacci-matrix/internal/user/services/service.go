@@ -15,6 +15,7 @@ type (
 	UserService interface {
 		Save(registerRequest dtos.RegisterRequest) error
 		Login(loginRequest dtos.LoginRequest) (dtos.LoginResponse, error)
+		FindUserByEmail(email string) (entities.User, error)
 	}
 )
 
@@ -37,7 +38,7 @@ func (s *Service) Save(registerRequest dtos.RegisterRequest) error {
 }
 
 func (s *Service) Login(loginRequest dtos.LoginRequest) (dtos.LoginResponse, error) {
-	user, err := s.userRepository.FindUserByEmail(loginRequest.Email)
+	user, err := s.FindUserByEmail(loginRequest.Email)
 	if err != nil {
 		return dtos.LoginResponse{}, err
 	}
@@ -46,10 +47,11 @@ func (s *Service) Login(loginRequest dtos.LoginRequest) (dtos.LoginResponse, err
 		return dtos.LoginResponse{}, err
 	}
 
+	// values used just to test the app freely
 	jwtWrapper := auth.JwtWrapper{
 		SecretKey:         "verysecretkey",
-		Issuer:            "AuthService",
-		ExpirationMinutes: 1,
+		Issuer:            "r2",
+		ExpirationMinutes: 60,
 		ExpirationHours:   12,
 	}
 	token, err := jwtWrapper.GenerateToken(user.Email)
@@ -65,4 +67,8 @@ func (s *Service) Login(loginRequest dtos.LoginRequest) (dtos.LoginResponse, err
 		Token:        token,
 		RefreshToken: refreshToken,
 	}, nil
+}
+
+func (s *Service) FindUserByEmail(email string) (entities.User, error) {
+	return s.userRepository.FindUserByEmail(email)
 }
