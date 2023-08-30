@@ -21,6 +21,7 @@ function Login() {
             const data = await response.json();
 
             if (response.ok) {
+                localStorage.setItem('accessToken', data.token)
                 navigate('/matrix');
             } else {
                 setErrorMessage(data.error);

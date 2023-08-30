@@ -11,8 +11,14 @@ function Matrix() {
     const handleCalculate = () => {
         setLoading(true);
         setErrorMessage('');
-        fetch(`http://localhost:8080/api/matrix?rows=${rows}&columns=${cols}`)
-            .then(response => response.json())
+        fetch(`http://localhost:8080/api/matrix?rows=${rows}&columns=${cols}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+        })
+            .then(response => response.json()) // check if 401 to refresh token
             .then(data => {
                 if (data.error) {
                     setErrorMessage(data.error);

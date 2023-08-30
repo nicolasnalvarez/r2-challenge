@@ -10,6 +10,7 @@ import (
 type (
 	Service struct {
 		userRepository repositories.UserRepository
+		jwtService     auth.JwtService
 	}
 
 	UserService interface {
@@ -19,9 +20,10 @@ type (
 	}
 )
 
-func NewUserService(userRepository repositories.UserRepository) *Service {
+func NewUserService(userRepository repositories.UserRepository, jwtService auth.JwtService) *Service {
 	return &Service{
 		userRepository: userRepository,
+		jwtService:     jwtService,
 	}
 }
 
@@ -47,18 +49,11 @@ func (s *Service) Login(loginRequest dtos.LoginRequest) (dtos.LoginResponse, err
 		return dtos.LoginResponse{}, err
 	}
 
-	// values used just to test the app freely
-	jwtWrapper := auth.JwtWrapper{
-		SecretKey:         "verysecretkey",
-		Issuer:            "r2",
-		ExpirationMinutes: 60,
-		ExpirationHours:   12,
-	}
-	token, err := jwtWrapper.GenerateToken(user.Email)
+	token, err := s.jwtService.GenerateToken(user.Email)
 	if err != nil {
 		return dtos.LoginResponse{}, err
 	}
-	refreshToken, err := jwtWrapper.RefreshToken(user.Email)
+	refreshToken, err := s.jwtService.RefreshToken(user.Email)
 	if err != nil {
 		return dtos.LoginResponse{}, err
 	}
